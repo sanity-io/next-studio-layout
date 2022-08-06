@@ -51,8 +51,7 @@ export const StudioPageHead = memo(function StudioPageHead({
     const icons = manifest.icons.map((icon: any) => {
       // Inline manifests works best when URLs are absolute
       const src = icon.src === './favicon-192.png' ? interop(icon192) : icon.src === './favicon-512.png' ? interop(icon512) : icon.src
-      return {...icon, src}
-      // return {...icon, src: process.env.NEXT_PUBLIC_VERCEL_URL ? new URL(src, process.env.NEXT_PUBLIC_VERCEL_URL ).toString() : src}
+      return {...icon, src: process.env.NEXT_PUBLIC_VERCEL_URL ? new URL(src, `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ).toString() : src}
     })
     return `data:application/manifest+json,${(JSON.stringify({...manifest, icons}))}`
   }, [])
