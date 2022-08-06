@@ -2,7 +2,7 @@ import { createGlobalStyle, css } from 'styled-components'
 
 export interface StudioPageGlobalStyleProps {
   bg?: string
-  fixTailwindSvg?: boolean
+  unstable__tailwindSvgFix?: boolean
 }
 export const StudioPageGlobalStyle = createGlobalStyle<StudioPageGlobalStyleProps>`
 ${({ bg }) =>
@@ -23,8 +23,8 @@ body {
   overscroll-behavior: none;
   -webkit-font-smoothing: antialiased;
 }
-${({ fixTailwindSvg = true }) =>
-  fixTailwindSvg
+${({ unstable__tailwindSvgFix }) =>
+  unstable__tailwindSvgFix
     ? css`
         /* override tailwind reset */
         :root svg {

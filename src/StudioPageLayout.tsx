@@ -24,11 +24,11 @@ export interface StudioPageLayoutProps extends StudioProps {
   /**
    * Turns off the default global styling
    */
-  noGlobalStyle?: boolean
+  unstable__noGlobalStyle?: boolean
   /**
    * Apply fix with SVG icon centering that happens if TailwindCSS is loaded, on by defautl
    */
-  fixTailwindSvg?: StudioPageGlobalStyleProps['fixTailwindSvg']
+  unstable__noTailwindSvgFix?: StudioPageGlobalStyleProps['unstable__tailwindSvgFix']
 }
 /**
  * Intended to render at the root of a page, letting the Studio own that page and render much like it would if you used `npx sanity start` to render
@@ -36,8 +36,8 @@ export interface StudioPageLayoutProps extends StudioProps {
 export const StudioPageLayout = ({
   children,
   config,
-  noGlobalStyle,
-  fixTailwindSvg,
+  unstable__noGlobalStyle,
+  unstable__noTailwindSvgFix,
   ...props
 }: StudioPageLayoutProps) => {
   return (
@@ -66,8 +66,8 @@ export const StudioPageLayout = ({
           media="(prefers-color-scheme: dark)"
         />
       </Head>
-      {!noGlobalStyle && (
-        <StudioPageGlobalStyle bg={lightBg} fixTailwindSvg={fixTailwindSvg} />
+      {!unstable__noGlobalStyle && (
+        <StudioPageGlobalStyle bg={lightBg} unstable__tailwindSvgFix={!unstable__noTailwindSvgFix} />
       )}
     </>
   )
