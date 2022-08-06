@@ -43,7 +43,7 @@ export interface StudioPageLayoutProps extends StudioProps {
   /**
    * Sets the background color of <html>
    */
-   unstable__bg?: StudioPageGlobalStyleProps['bg']
+  unstable__bg?: StudioPageGlobalStyleProps['bg']
 }
 /**
  * Intended to render at the root of a page, letting the Studio own that page and render much like it would if you used `npx sanity start` to render
