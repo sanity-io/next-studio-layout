@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { type ComponentProps, memo, useCallback,useEffect,useMemo, useState } from 'react'
+import { type ComponentProps, memo, useCallback,useMemo} from 'react'
 import { type StudioTheme } from 'sanity'
 
 // @ts-ignore -- this import is correct
