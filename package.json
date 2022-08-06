@@ -1,0 +1,36 @@
+{
+  "name": "@sanity/next-studio-layout",
+  "version": "1.0.0",
+  "description": "Toolkit for using Sanity.io Studio on a Next.js page",
+  "keywords": [
+    "sanity",
+    "sanity.io",
+    "next.js"
+  ],
+  "homepage": "https://github.com/sanity-io/next-sanity#readme",
+  "bugs": {
+    "url": "https://github.com/sanity-io/next-sanity/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sanity-io/next-sanity.git"
+  },
+  "license": "MIT",
+  "author": "Sanity.io <hello@sanity.io>",
+  "main": "package.json",
+  "files": [
+    "README.md"
+  ],
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1",
+    "prettier-plugin-packagejson": "^2.2.18",
+    "semantic-release": "^19.0.3"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
