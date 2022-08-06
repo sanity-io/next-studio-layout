@@ -1,11 +1,14 @@
-import Head from 'next/head'
-import { type StudioProps, defaultTheme, Studio } from 'sanity'
+import { memo } from 'react'
+import { type StudioProps, Studio } from 'sanity'
 
-import { StudioPageGlobalStyle, StudioPageGlobalStyleProps } from '.'
-
-// Use the same bg colors as the studio
-const lightBg = defaultTheme.color.light.default.base.bg
-const darkBg = defaultTheme.color.dark.default.base.bg
+import {
+  type StudioPageHeadProps,
+  StudioPageGlobalStyle,
+  StudioPageGlobalStyleProps,
+  StudioPageHead,
+  useBackgroundColorsFromTheme,
+  useTheme,
+} from '.'
 
 export interface StudioPageLayoutProps extends StudioProps {
   /**
@@ -29,49 +32,54 @@ export interface StudioPageLayoutProps extends StudioProps {
    * Apply fix with SVG icon centering that happens if TailwindCSS is loaded, on by defautl
    */
   unstable__noTailwindSvgFix?: StudioPageGlobalStyleProps['unstable__tailwindSvgFix']
+  /**
+   * Add stuff to the head with next/head
+   */
+  unstable__head?: StudioPageHeadProps['children']
+  /**
+   * Sets the document title
+   */
+  unstable__document_title?: StudioPageHeadProps['title']
+  /**
+   * Sets the background color of <html>
+   */
+   unstable__bg?: StudioPageGlobalStyleProps['bg']
 }
 /**
  * Intended to render at the root of a page, letting the Studio own that page and render much like it would if you used `npx sanity start` to render
  */
-export const StudioPageLayout = ({
+export const StudioPageLayout = memo(function StudioPageLayout({
   children,
   config,
   unstable__noGlobalStyle,
   unstable__noTailwindSvgFix,
+  unstable__head,
+  unstable__document_title,
+  unstable__bg,
   ...props
-}: StudioPageLayoutProps) => {
+}: StudioPageLayoutProps) {
+  const theme = useTheme(config)
+  const { themeColorLight, themeColorDark } =
+    useBackgroundColorsFromTheme(theme)
   return (
     <>
       {children || <Studio config={config} {...props} />}
-      <Head>
-        <meta
-          name="viewport"
-          // Studio implements display cutouts CSS (The iPhone Notch ™ ) and needs `viewport-fit=covered` for it to work correctly
-          content="width=device-width, initial-scale=1, viewport-fit=cover"
-        />
-        <meta name="robots" content="noindex" />
-        <meta name="referrer" content="same-origin" />
-        <title>Sanity Studio</title>
-        {/* These theme-color tags makes the Studio look really really good on devices like iPads as the browser chrome adopts the Studio background */}
-        <meta
-          key="theme-color-light"
-          name="theme-color"
-          content={lightBg}
-          media="(prefers-color-scheme: light)"
-        />
-        <meta
-          key="theme-color-dark"
-          name="theme-color"
-          content={darkBg}
-          media="(prefers-color-scheme: dark)"
-        />
-      </Head>
+      <StudioPageHead
+        themeColorLight={themeColorLight}
+        themeColorDark={themeColorDark}
+        title={unstable__document_title}
+      >
+        {unstable__head}
+      </StudioPageHead>
       {!unstable__noGlobalStyle && (
-        <StudioPageGlobalStyle bg={lightBg} unstable__tailwindSvgFix={!unstable__noTailwindSvgFix} />
+        <StudioPageGlobalStyle
+          bg={unstable__bg ?? themeColorLight}
+          unstable__tailwindSvgFix={!unstable__noTailwindSvgFix}
+        />
       )}
     </>
   )
-}
+})
 
 /*
         <Favicons basePath={basePath} />
