@@ -100,5 +100,5 @@ function interop(href: string | { src: string }): string {
   if (typeof href === 'string') {
     return href
   }
-  return new URL(`${href.src}`, typeof document === 'undefined' ? 'http://example.com' : location.origin).toString()
+  return href.src
 }
