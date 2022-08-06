@@ -21,6 +21,10 @@ jobs:
 
       - run: npm ci
 
+      - run: npm run lint --if-present
+
+      - run: npm run type-check --if-present
+
       - run: npm test --if-present
 
       - run: npx semantic-release
