@@ -107,3 +107,7 @@ dist
 
 # Sanity
 .sanity
+
+# Builds
+lib
+.parcel-cache

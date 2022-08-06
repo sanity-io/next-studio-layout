@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { type StudioProps, defaultTheme, Studio } from 'sanity'
-import { StudioPageGlobalStyle, StudioPageGlobalStyleProps } from 'src'
+
+import { StudioPageGlobalStyle, StudioPageGlobalStyleProps } from '.'
 
 // Use the same bg colors as the studio
 const lightBg = defaultTheme.color.light.default.base.bg
