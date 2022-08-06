@@ -1,0 +1,30 @@
+name: Test
+on:
+  pull_request:
+    branches:
+      - main
+      - studio-v3
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+
+      - run: npm ci
+
+      - run: npm run lint --if-present
+
+      - run: npm run type-check --if-present
+
+      - run: npm run build --if-present
+
+      - run: npm test --if-present
