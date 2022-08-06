@@ -2,6 +2,9 @@ import createClient from '@sanity/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ServerTiming } from 'src/ServerTiming'
 
+const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
+const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -12,14 +15,25 @@ export default async function handler(
   try {
     const { host } = req.headers
 
-    return res.status(200).json({ host })
     /*
     const client = createClient({
-      projectId: Array.isArray(projectId) ? projectId[0] : projectId,
-      dataset: Array.isArray(dataset) ? dataset[0] : dataset,
+      projectId,
+      dataset,
       apiVersion: '2022-07-10',
     })
-    
+ // */
+
+    return res
+      .status(200)
+      .json({
+        host,
+        env: process.env.VERCEL,
+        url: process.env.VERCEL_URL,
+        projectId,
+        dataset,
+      })
+
+    /*
     serverTiming.end('fetch')
 
     res.setHeader('Server-Timing', `${serverTiming}`)
