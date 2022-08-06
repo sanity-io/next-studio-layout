@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { type ComponentProps, memo, useMemo } from 'react'
+import { type ComponentProps, memo, useCallback,useEffect,useMemo, useState } from 'react'
 import { type StudioTheme } from 'sanity'
 
 // @ts-ignore -- this import is correct
@@ -45,18 +45,18 @@ export const StudioPageHead = memo(function StudioPageHead({
   title = 'Sanity Studio',
   favicons,
 }: StudioPageHeadProps) {
-  /*
-  console.log({ favicons })
-  const inlineWebmanifest = useMemo(() => {
+  
+  const inlineWebmanifest = useCallback(() => {
     const manifest = JSON.parse(JSON.stringify(webmanifest))
     const icons = manifest.icons.map((icon: any) => {
-      debugger
-      return {...icon, src: icon.src === './favicon-192.png' ? interop(icon192) : icon.src === './favicon-512.png' ? interop(icon512) : icon.src}
+      // Inline manifests works best when URLs are absolute
+      const src = icon.src === './favicon-192.png' ? interop(icon192) : icon.src === './favicon-512.png' ? interop(icon512) : icon.src
+      return {...icon, src}
+      // return {...icon, src: process.env.NEXT_PUBLIC_VERCEL_URL ? new URL(src, process.env.NEXT_PUBLIC_VERCEL_URL ).toString() : src}
     })
-    debugger
-    return `data:application/manifest+json,{ "name": "theName", "short_name": "shortName", "description": "theDescription"}`
+    return `data:application/manifest+json,${(JSON.stringify({...manifest, icons}))}`
   }, [])
-  // */
+
   return (
     <Head>
       <meta
@@ -72,9 +72,7 @@ export const StudioPageHead = memo(function StudioPageHead({
         <link rel="icon" href={interop(iconSvg)} type="image/svg+xml" />
       )}
       {favicons && <link rel="apple-touch-icon" href={interop(iconApple)} />}
-      {/* @TODO add support for bundling webmanifest */}
-      {/* <link rel="manifest" href={`/manifest.webmanifest`} /> */}
-      <link rel="manifest" href={`/manifest.webmanifest`} />
+      {favicons && <link rel="manifest" href={inlineWebmanifest()} />}
       {/* These theme-color tags makes the Studio look really really good on devices like iPads as the browser chrome adopts the Studio background */}
       {themeColorLight && (
         <meta
@@ -102,5 +100,5 @@ function interop(href: string | { src: string }): string {
   if (typeof href === 'string') {
     return href
   }
-  return href.src
+  return new URL(`${href.src}`, typeof document === 'undefined' ? 'http://example.com' : location.origin).toString()
 }
