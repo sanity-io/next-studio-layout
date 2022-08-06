@@ -1,10 +1,13 @@
+// Auto CORS experiment, requires an auth token atm
+
 import createClient from '@sanity/client'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { ServerTiming } from 'src/ServerTiming'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET
-const token = process.env.SANITY_API_WRITE_TOKEN
+const token = process.env.SANITY_API_CORS_TOKEN
+const apiVersion = '2022-07-10'
 
 export default async function handler(
   req: NextApiRequest,
@@ -21,7 +24,7 @@ export default async function handler(
       throw new Error('Missing NEXT_PUBLIC_SANITY_DATASET')
     }
     if (!token) {
-      throw new Error('Missing SANITY_API_WRITE_TOKEN')
+      throw new Error('Missing SANITY_API_CORS_TOKEN')
     }
 
     const { host } = req.headers
@@ -50,20 +53,34 @@ export default async function handler(
       }
     }
 
-    /*=
-    const client = createClient({
-      projectId,
-      dataset,
-      apiVersion: '2022-07-10',
+    const client = createClient({ projectId, dataset, token, apiVersion })
+    const entries = await client.request({
+      url: `/projects/${projectId}/cors`,
+      withCredentials: true,
+      method: 'GET',
     })
- // */
+    const url = new URL(
+      `${req.headers['x-forwarded-proto'] || 'http'}://${host}`
+    )
+    const exists = entries.some(
+      (entry) => entry.origin === `${host}` && entry.allowCredentials
+    )
+    if (exists) {
+      return res.status(200).json({ host, exists })
+    }
+
+    await client.request({
+      url: `/projects/${projectId}/cors`,
+      withCredentials: true,
+      method: 'POST',
+      json: true,
+      body: { origin: url, allowCredentials: true },
+    })
 
     return res.status(200).json({
       host,
-      env: process.env.VERCEL_ENV,
-      url: process.env.VERCEL_URL,
-      projectId,
-      dataset,
+      exists,
+      created: true,
     })
 
     /*
@@ -76,7 +93,7 @@ export default async function handler(
     res.setHeader('Server-Timing', `${serverTiming}`)
     return res.status(500).json({
       message: err.message,
-      VERCEK_ENV: process.env.VERCEL_ENV,
+      VERCEL_ENV: process.env.VERCEL_ENV,
       VERCEL_URL: process.env.VERCEL_URL,
       'req.headers.host': req.headers.host,
       projectId,
