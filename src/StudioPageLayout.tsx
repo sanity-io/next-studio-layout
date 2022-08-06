@@ -86,7 +86,3 @@ export const StudioPageLayout = memo(function StudioPageLayout({
     </>
   )
 })
-
-/*
-        <Favicons basePath={basePath} />
-*/
