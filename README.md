@@ -14,7 +14,7 @@ npm install --save @sanity/next-studio-layout@studio-v3
 
 The basic setup is two files:
 
-`pages/[[...index]].tsx`
+1. `pages/[[...index]].tsx`
 
 ```tsx
 // Import your sanity.config.ts file
@@ -27,7 +27,7 @@ export default function StudioPage() {
 }
 ```
 
-`pages/_document.tsx`
+2. `pages/_document.tsx`
 
 ```tsx
 import { ServerStyleSheetDocument } from '@sanity/next-studio-layout'
