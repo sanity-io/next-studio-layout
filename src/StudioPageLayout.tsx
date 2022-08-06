@@ -44,6 +44,10 @@ export interface StudioPageLayoutProps extends StudioProps {
    * Sets the background color of <html>
    */
   unstable__bg?: StudioPageGlobalStyleProps['bg']
+  /**
+   * Don't load the favicon meta tags
+   */
+  unstable__noFavicons?: boolean
 }
 /**
  * Intended to render at the root of a page, letting the Studio own that page and render much like it would if you used `npx sanity start` to render
@@ -56,6 +60,7 @@ export const StudioPageLayout = memo(function StudioPageLayout({
   unstable__head,
   unstable__document_title,
   unstable__bg,
+  unstable__noFavicons,
   ...props
 }: StudioPageLayoutProps) {
   const theme = useTheme(config)
@@ -68,6 +73,7 @@ export const StudioPageLayout = memo(function StudioPageLayout({
         themeColorLight={themeColorLight}
         themeColorDark={themeColorDark}
         title={unstable__document_title}
+        favicons={!unstable__noFavicons}
       >
         {unstable__head}
       </StudioPageHead>

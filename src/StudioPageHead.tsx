@@ -2,11 +2,25 @@ import Head from 'next/head'
 import { type ComponentProps, memo, useMemo } from 'react'
 import { type StudioTheme } from 'sanity'
 
+// @ts-ignore -- this import is correct
+import iconApple from '../static/apple-touch-icon.png'
+// @ts-ignore -- this import is correct
+import iconIco from '../static/favicon.ico'
+// @ts-ignore -- this import is correct
+import iconSvg from '../static/favicon.svg'
+// @ts-ignore -- this import is correct
+import icon192 from '../static/favicon-192.png'
+// @ts-ignore -- this import is correct
+import icon512 from '../static/favicon-512.png'
+// @ts-ignore -- this import is correct
+import webmanifest from '../static/webmanifest.json'
+
 export interface StudioPageHeadProps {
   children?: ComponentProps<typeof Head>['children']
   themeColorLight?: string
   themeColorDark?: string
   title?: string
+  favicons?: boolean
 }
 
 export type MetaThemeColors = Required<
@@ -29,7 +43,20 @@ export const StudioPageHead = memo(function StudioPageHead({
   themeColorDark,
   themeColorLight,
   title = 'Sanity Studio',
+  favicons,
 }: StudioPageHeadProps) {
+  /*
+  console.log({ favicons })
+  const inlineWebmanifest = useMemo(() => {
+    const manifest = JSON.parse(JSON.stringify(webmanifest))
+    const icons = manifest.icons.map((icon: any) => {
+      debugger
+      return {...icon, src: icon.src === './favicon-192.png' ? interop(icon192) : icon.src === './favicon-512.png' ? interop(icon512) : icon.src}
+    })
+    debugger
+    return `data:application/manifest+json,{ "name": "theName", "short_name": "shortName", "description": "theDescription"}`
+  }, [])
+  // */
   return (
     <Head>
       <meta
@@ -40,6 +67,14 @@ export const StudioPageHead = memo(function StudioPageHead({
       <meta name="robots" content="noindex" />
       <meta name="referrer" content="same-origin" />
       <title>{title}</title>
+      {favicons && <link rel="icon" href={interop(iconIco)} sizes="any" />}
+      {favicons && (
+        <link rel="icon" href={interop(iconSvg)} type="image/svg+xml" />
+      )}
+      {favicons && <link rel="apple-touch-icon" href={interop(iconApple)} />}
+      {/* @TODO add support for bundling webmanifest */}
+      {/* <link rel="manifest" href={`/manifest.webmanifest`} /> */}
+      <link rel="manifest" href={`/manifest.webmanifest`} />
       {/* These theme-color tags makes the Studio look really really good on devices like iPads as the browser chrome adopts the Studio background */}
       {themeColorLight && (
         <meta
@@ -61,3 +96,11 @@ export const StudioPageHead = memo(function StudioPageHead({
     </Head>
   )
 })
+
+// Interop between how Parcel and Next deals with asset imports
+function interop(href: string | { src: string }): string {
+  if (typeof href === 'string') {
+    return href
+  }
+  return href.src
+}
