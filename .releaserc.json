@@ -1,7 +1,7 @@
 {
   "branches": [
-    "main",
-    { "name": "studio-v3", "channel": "studio-v3", "prerelease": "v3-studio" }
+    { "name": "studio-v2", "channel": "latest" },
+    { "name": "main", "channel": "studio-v3", "prerelease": "v3-studio" }
   ],
   "plugins": [
     "@semantic-release/commit-analyzer",
