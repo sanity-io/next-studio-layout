@@ -6,7 +6,9 @@ export default function StudioPage() {
     <StudioPageLayout
       config={config}
       // Turn off login in production so that anyone can look around in the Studio and see how it works
-      unstable_noAuthBoundary={process.env.VERCEL_ENV === 'production'}
+      unstable_noAuthBoundary={
+        process.env.NEXT_PUBLIC_VERCEL_ENV === 'production'
+      }
     />
   )
 }
