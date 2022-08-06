@@ -7,13 +7,13 @@
     "sanity.io",
     "next.js"
   ],
-  "homepage": "https://github.com/sanity-io/next-sanity#readme",
+  "homepage": "https://github.com/sanity-io/next-studio-layout#readme",
   "bugs": {
-    "url": "https://github.com/sanity-io/next-sanity/issues"
+    "url": "https://github.com/sanity-io/next-studio-layout/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/sanity-io/next-sanity.git"
+    "url": "git+ssh://git@github.com/sanity-io/next-studio-layout.git"
   },
   "license": "MIT",
   "author": "Sanity.io <hello@sanity.io>",
