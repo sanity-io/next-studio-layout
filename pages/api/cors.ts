@@ -23,15 +23,13 @@ export default async function handler(
     })
  // */
 
-    return res
-      .status(200)
-      .json({
-        host,
-        env: process.env.VERCEL,
-        url: process.env.VERCEL_URL,
-        projectId,
-        dataset,
-      })
+    return res.status(200).json({
+      host,
+      env: process.env.VERCEL_ENV,
+      url: process.env.VERCEL_URL,
+      projectId,
+      dataset,
+    })
 
     /*
     serverTiming.end('fetch')
