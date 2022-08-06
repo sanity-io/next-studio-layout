@@ -39,6 +39,7 @@ export default defineType({
       department: 'department',
       media: 'person.image',
     },
+    // @ts-expect-error -- implicit any
     prepare(selection) {
       const { name, job, department, media } = selection
       return {
