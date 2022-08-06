@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { type ComponentProps, memo, useCallback,useMemo} from 'react'
+import { type ComponentProps, memo, useCallback, useMemo } from 'react'
 import { type StudioTheme } from 'sanity'
 
 // @ts-ignore -- this import is correct
@@ -45,15 +45,29 @@ export const StudioPageHead = memo(function StudioPageHead({
   title = 'Sanity Studio',
   favicons,
 }: StudioPageHeadProps) {
-  
   const inlineWebmanifest = useCallback(() => {
     const manifest = JSON.parse(JSON.stringify(webmanifest))
     const icons = manifest.icons.map((icon: any) => {
       // Inline manifests works best when URLs are absolute
-      const src = icon.src === './favicon-192.png' ? interop(icon192) : icon.src === './favicon-512.png' ? interop(icon512) : icon.src
-      return {...icon, src: process.env.NEXT_PUBLIC_VERCEL_URL ? new URL(src, `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` ).toString() : src}
+      const src =
+        icon.src === './favicon-192.png'
+          ? interop(icon192)
+          : icon.src === './favicon-512.png'
+          ? interop(icon512)
+          : icon.src
+      return {
+        ...icon,
+        src: process.env.NEXT_PUBLIC_VERCEL_URL
+          ? new URL(
+              src,
+              `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+            ).toString()
+          : src,
+      }
     })
-    return `data:application/manifest+json,${(JSON.stringify({...manifest, icons}))}`
+    return `data:application/manifest+json,${encodeURIComponent(
+      JSON.stringify({ ...manifest, icons })
+    )}`
   }, [])
 
   return (
