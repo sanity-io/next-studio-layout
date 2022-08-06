@@ -63,7 +63,7 @@ export default async function handler(
       `${req.headers['x-forwarded-proto'] || 'http'}://${host}`
     )
     const exists = entries.some(
-      (entry) => entry.origin === `${host}` && entry.allowCredentials
+      (entry: any) => entry.origin === `${host}` && entry.allowCredentials
     )
     if (exists) {
       return res.status(200).json({ host, exists })
