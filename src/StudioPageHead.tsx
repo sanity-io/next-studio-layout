@@ -30,10 +30,6 @@ export const StudioPageHead = memo(function StudioPageHead({
   themeColorLight,
   title = 'Sanity Studio',
 }: StudioPageHeadProps) {
-  const { lightBg, darkBg } = useMemo(() => {
-    return { lightBg: '#fff', darkBg: '#000' }
-  }, [])
-
   return (
     <Head>
       <meta
