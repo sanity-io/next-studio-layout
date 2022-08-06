@@ -5,7 +5,9 @@
   "keywords": [
     "sanity",
     "sanity.io",
-    "next.js"
+    "next.js",
+    "studio",
+    "studio-v3"
   ],
   "homepage": "https://github.com/sanity-io/next-studio-layout#readme",
   "bugs": {
