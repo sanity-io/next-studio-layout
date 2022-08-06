@@ -32,12 +32,14 @@
   "source": "./src/index.ts",
   "types": "./lib/types/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "static"
   ],
   "scripts": {
     "build": "next build",
     "clean": "rimraf lib",
     "dev": "next",
+    "build:icons": "cp node_modules/@sanity/server/lib/static/favicons/* static/favicons",
     "format": "npx prettier --write . --ignore-path .gitignore && npx eslint . --fix",
     "lint": "next lint",
     "prepublishOnly": "npm run clean && parcel build",
