@@ -1,6 +1,6 @@
 # @sanity/next-studio-layout
 
-[https://www.sanity.io/?utm_source=github&utm_medium=readme&utm_campaign=next-studio-layout](Sanity.io) toolkit for embedding [Studio v3](https://www.sanity.io/studio-v3) in [Next.js](https://nextjs.org/) apps.
+[Sanity.io](https://www.sanity.io/?utm_source=github&utm_medium=readme&utm_campaign=next-studio-layout) toolkit for embedding [Studio v3](https://www.sanity.io/studio-v3) in [Next.js](https://nextjs.org/) apps.
 
 ## Why?
 
