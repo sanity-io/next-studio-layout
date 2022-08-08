@@ -33,7 +33,7 @@
   "types": "./lib/types/index.d.ts",
   "files": [
     "lib",
-    "static"
+    "public"
   ],
   "scripts": {
     "build": "next build",
