@@ -1,8 +1,15 @@
 # @sanity/next-studio-layout
 
-## What is it?
+[https://www.sanity.io/?utm_source=github&utm_medium=readme&utm_campaign=next-studio-layout](Sanity.io) toolkit for embedding [Studio v3](https://www.sanity.io/studio-v3) in [Next.js](https://nextjs.org/) apps.
 
-A toolkit for embedding a Sanity Studio v3 on a Next.js route.
+## Why?
+
+The latest version of Sanity Studio allows you to embed a near-infinitely configurable content editing interface into any React application. This opens up many possibilities:
+
+- Any service that hosts Next.js apps can now host your Studio.
+- Building previews for your content is easier as your Studio lives in the same environment.
+- Use [Data Fetching](https://nextjs.org/docs/basic-features/data-fetching/overview) to configure your Studio.
+- Easy setup of [Preview Mode](https://nextjs.org/docs/advanced-features/preview-mode).
 
 ## Installation
 
