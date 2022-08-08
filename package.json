@@ -85,5 +85,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "@parcel/transformer-js": {
+    "inlineFS": false,
+    "inlineEnvironment": []
   }
 }

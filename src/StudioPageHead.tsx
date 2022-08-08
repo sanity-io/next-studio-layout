@@ -3,17 +3,17 @@ import { type ComponentProps, memo, useCallback, useMemo } from 'react'
 import { type StudioTheme } from 'sanity'
 
 // @ts-ignore -- this import is correct
-import iconApple from '../static/apple-touch-icon.png'
+import iconApple from '../public/apple-touch-icon.png'
 // @ts-ignore -- this import is correct
-import iconIco from '../static/favicon.ico'
+import iconIco from '../public/favicon.ico'
 // @ts-ignore -- this import is correct
-import iconSvg from '../static/favicon.svg'
+import iconSvg from '../public/favicon.svg'
 // @ts-ignore -- this import is correct
-import icon192 from '../static/favicon-192.png'
+import icon192 from '../public/favicon-192.png'
 // @ts-ignore -- this import is correct
-import icon512 from '../static/favicon-512.png'
+import icon512 from '../public/favicon-512.png'
 // @ts-ignore -- this import is correct
-import webmanifest from '../static/webmanifest.json'
+import webmanifest from '../public/webmanifest.json'
 
 export interface StudioPageHeadProps {
   children?: ComponentProps<typeof Head>['children']
@@ -85,7 +85,17 @@ export const StudioPageHead = memo(function StudioPageHead({
         <link rel="icon" href={interop(iconSvg)} type="image/svg+xml" />
       )}
       {favicons && <link rel="apple-touch-icon" href={interop(iconApple)} />}
-      {favicons && <link rel="manifest" href={inlineWebmanifest()} />}
+      {favicons && (
+        <link
+          rel="manifest"
+          // @TODO until parcel fixes https://github.com/parcel-bundler/parcel/issues/8025 and stops stripping process.env.NEXT_PUBLIC_VERCEL_URL from the compiled code, use the remove webmanifest
+          href={
+            process.env.NEXT_PUBLIC_VERCEL_URL
+              ? inlineWebmanifest()
+              : 'https://next-studio-layout.sanity.build/manifest.webmanifest'
+          }
+        />
+      )}
       {/* These theme-color tags makes the Studio look really really good on devices like iPads as the browser chrome adopts the Studio background */}
       {themeColorLight && (
         <meta
