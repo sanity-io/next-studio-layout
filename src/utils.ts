@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useMemo } from 'react'
 import {
   type Config,
@@ -29,4 +30,51 @@ export function useTheme(config: Config): StudioTheme {
     () => (isWorkspaceWithTheme(workspace) ? workspace.theme : defaultTheme),
     [workspace]
   )
+}
+
+export interface WorkspaceWithBasePath
+  extends Omit<WorkspaceOptions, 'basePath'> {
+  basePath: string
+}
+
+export function isWorkspaceWithBasePath(
+  workspace: WorkspaceOptions
+): workspace is WorkspaceWithBasePath {
+  return Boolean(workspace.basePath)
+}
+
+/**
+ * Parses the next route to determine the what the base path for Sanity Studio should be
+ */
+export function useBasePath() {
+  const router = useRouter()
+  return useMemo(() => {
+    const [basePath = '/'] = router.route.split('/[')
+    return basePath
+  }, [router.route])
+}
+
+/**
+ * Apply the base path from next to the config, prefixing any defined base path
+ */
+export function useConfigWithBasePath(config: Config) {
+  const basePath = useBasePath()
+  return useMemo(() => {
+    if (isWorkspaces(config)) {
+      return config.map((workspace) => ({
+        ...workspace,
+        basePath:
+          workspace.basePath === '/'
+            ? basePath
+            : `${basePath}${workspace.basePath || ''}`,
+      }))
+    }
+    return {
+      ...config,
+      basePath:
+        config.basePath === '/'
+          ? basePath
+          : `${basePath}${config.basePath || ''}`,
+    }
+  }, [config, basePath])
 }
